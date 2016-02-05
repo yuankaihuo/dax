@@ -625,7 +625,9 @@ def write_xml(xml_str, file_path, clean_tags=True):
         for child in root.findall('{http://nrg.wustl.edu/xnat}experiments'):
             root.remove(child)
             break
-
+    
+    print('DEBUG:ET='+ElementTree.tostring(ET, encoding='utf8', method='xml'))
+    
     try:
         # Write to file
         ET.register_namespace('xnat', 'http://nrg.wustl.edu/xnat')
