@@ -626,7 +626,7 @@ def write_xml(xml_str, file_path, clean_tags=True):
             root.remove(child)
             break
     
-    print('DEBUG:ET='+ElementTree.tostring(ET, encoding='utf8', method='xml'))
+    print('DEBUG:ET='+ET.tostring(root, encoding='utf8', method='xml'))
     
     try:
         # Write to file
