@@ -426,6 +426,7 @@ def copy_session(src_sess, dst_sess, sess_cache_dir):
         if not os.path.exists(sess_cache_dir):
             os.makedirs(sess_cache_dir)
         sess_xml = src_sess.get()
+        print('DEBUG:sess_xml='+sess_xml)
         xml_path = os.path.join(sess_cache_dir, 'sess.xml')
         write_xml(sess_xml, xml_path)
         dst_sess.create(xml=xml_path, allowDataDeletion=False)
