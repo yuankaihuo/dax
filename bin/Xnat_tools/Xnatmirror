@@ -426,7 +426,6 @@ def copy_session(src_sess, dst_sess, sess_cache_dir):
         if not os.path.exists(sess_cache_dir):
             os.makedirs(sess_cache_dir)
         sess_xml = src_sess.get()
-        print('DEBUG:sess_xml='+sess_xml)
         xml_path = os.path.join(sess_cache_dir, 'sess.xml')
         write_xml(sess_xml, xml_path)
         dst_sess.create(xml=xml_path, allowDataDeletion=False)
@@ -625,16 +624,17 @@ def write_xml(xml_str, file_path, clean_tags=True):
         for child in root.findall('{http://nrg.wustl.edu/xnat}experiments'):
             root.remove(child)
             break
-    
-    print('DEBUG:ET='+ET.tostring(root, encoding='utf8', method='xml'))
-    
+
     try:
         # Write to file
         ET.register_namespace('xnat', 'http://nrg.wustl.edu/xnat')
         ET.register_namespace('proc', 'http://nrg.wustl.edu/proc')
         ET.register_namespace('prov', 'http://www.nbirn.net/prov')
         ET.register_namespace('fs', 'http://nrg.wustl.edu/fs')
-        ET.ElementTree(root).write(file_path)
+        newstr = ET.tostring(root)
+        newstr = "".join([s for s in newstr.splitlines(True) if s.strip("\r\n")])
+        newroot = ET.fromstring(newstr)
+        ET.ElementTree(newroot).write(file_path)
     except IOError as error:
         print('ERROR:writing xml file:'+file_path+':'+str(error))
 
