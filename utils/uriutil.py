@@ -27,6 +27,25 @@ URI_PROJECT_RESOURCES_BY_ID = '/data/archive/projects/{project}/resources/{resou
 URI_PROJECT_RESOURCES_BY_FILENAME = '/data/archive/projects/{project}/resources/{resource}/files/{file}'
 URI_PROJECT_SEARCHES = '/data/archive/projects/{project}/searches/{search}'
 
+# Session URIS
+URI_SESSION_ASSESSOR = '/data/archive/projects/{project}/subjects/{subject_label}/experiments/{session_label}/assessors'
+URI_SESSION_ASSESSOR_BY_ID = '/data/archive/projects/{project}/subjects/{subject_label}/experiments/{session_label}/assessors/{assessor_label}'
+URI_SESSION_ASSESSOR_FILE_BY_ID = '/data/archive/projects/{project}/subjects/{subject_label}/experiments/{session_label}/assessors/{assessor_label}/out/files/{file}'
+URI_SESSION_ASSESSOR_RESOURCE = '/data/archive/projects/{project}/subjects/{subject_label}/experiments/{session_label}/assessors/{assessor_label}/out/resources'
+URI_SESSION_ASSESSOR_RESOURCE_BY_ID = '/data/archive/projects/{project}/subjects/{subject_label}/experiments/{session_label}/assessors/{assessor_label}/out/resources/{resource}'
+URI_SESSION_ASSESSOR_RESOURCE_FILE_BY_ID = '/data/archive/projects/{project}/subjects/{subject_label}/experiments/{session_label}/assessors/{assessor_label}/out/resources/{resource}/files/{file}'
+URI_SESSION_RECONSTRUCTION = '/data/archive/projects/{project}/subjects/{subject_label}/experiments/{session_label}/reconstructions'
+URI_SESSION_RECONSTRUCTION_BY_ID = '/data/archive/projects/{project}/subjects/{subject_label}/experiments/{session_label}/reconstructions/{assessor_label}'
+URI_SESSION_RECONSTRUCTION_FILE_BY_ID = '/data/archive/projects/{project}/subjects/{subject_label}/experiments/{session_label}/reconstructions/{assessor_label}/out/files/{file}'
+URI_SESSION_RECONSTRUCTION_RESOURCE = '/data/archive/projects/{project}/subjects/{subject_label}/experiments/{session_label}/reconstructions/{assessor_label}/out/resources'
+URI_SESSION_RECONSTRUCTION_RESOURCE_BY_ID = '/data/archive/projects/{project}/subjects/{subject_label}/experiments/{session_label}/reconstructions/{assessor_label}/out/resources/{resource}'
+URI_SESSION_RECONSTRUCTION_RESOURCE_FILE_BY_ID = '/data/archive/projects/{project}/subjects/{subject_label}/experiments/{session_label}/reconstructions/{assessor_label}/out/resources/{resource}/files/{file}'
+URI_SESSION_SCAN = '/data/archive/projects/{project}/subjects/{subject_label}/experiments/{session_label}/scans'
+URI_SESSION_SCAN_BY_ID = '/data/archive/projects/{project}/subjects/{subject_label}/experiments/{session_label}/scans/{scan_id}'
+URI_SESSION_SCAN_FILE_BY_ID = '/data/archive/projects/{project}/subjects/{subject_label}/experiments/{session_label}/scans/{scan_id}/files/{file}'
+URI_SESSION_SCAN_RESOURCE = '/data/archive/projects/{project}/subjects/{subject_label}/experiments/{session_label}/scans/{scan_id}/resources'
+URI_SESSION_SCAN_RESOURCE_BY_ID = '/data/archive/projects/{project}/subjects/{subject_label}/experiments/{session_label}/scans/{scan_id}/resources/{resource}'
+URI_SESSION_SCAN_RESOURCE_FILE_BY_ID = '/data/archive/projects/{project}/subjects/{subject_label}/experiments/{session_label}/scans/{scan_id}/resources/{resource}/files/{file}'
 
 def format_uri(uri, value_dict):
     '''
