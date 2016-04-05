@@ -46,3 +46,13 @@ def wrapped_delete(obj):
         printutil.print_warning_message('Caught PyXNAT DatabaseError while '
                                         'deleting with message %s' %
                                         dberr.message)
+
+def refresh_connection(xnat):
+    '''
+
+    :param xnat:
+    :return:
+    '''
+
+    xnat.disconnect()
+    return get_connection()
