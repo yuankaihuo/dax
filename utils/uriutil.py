@@ -58,9 +58,9 @@ URI_ARCHIVE_ASSESSOR_BY_ID = '/data/archive/experiments/{session_label}/assessor
 URI_ARCHIVE_SCAN_BY_ID = '/data/archive/experiments/{session_label}/scans/{ID}'
 URI_ARCHIVE_PROJECT_BY_ID = '/data/archive/projects/{project}'
 URI_ARCHIVE_SUBJECT_BY_ID = '/data/archive/projects/{project}/subjects/{subject_label}'
-URI_ARCHIVE_SESSION_BY_ID = '/data/archive/projects/{project}/subjects/{subject_label}/experiments/{session_label}'
+URI_ARCHIVE_BY_SUBJECT_ID_AND_SESSION_BY_ID = '/data/archive/projects/{project}/subjects/{subject_label}/experiments/{session_label}'
 URI_ARCHIVE_ASSESSOR = '/data/archive/projects/{project}/subjects/{subject_label}/experiments/{session_label}/assessors'
-URI_ARCHIVE_SUJECT_ID_AND_SCAN_ID = '/data/archive/projects/{project}/subjects/{subject_label}/experiments/{session_label}/scans/{scan_id}'
+URI_ARCHIVE_BY_SUBJECT_ID_AND_SCAN_ID = '/data/archive/projects/{project}/subjects/{subject_label}/experiments/{session_label}/scans/{scan_id}'
 
 # Service URIS
 URI_SERVICE_ARCHIVE = '/data/services/archive'
