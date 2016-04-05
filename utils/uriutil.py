@@ -1,5 +1,7 @@
 import printutil
 import xnat_utils2
+from string import Formatter
+
 # Mirror of the URIS here https://wiki.xnat.org/display/XNAT16/XNAT+REST+API+Directory
 
 # User URIS
@@ -34,18 +36,43 @@ URI_SESSION_ASSESSOR_FILE_BY_ID = '/data/archive/projects/{project}/subjects/{su
 URI_SESSION_ASSESSOR_RESOURCE = '/data/archive/projects/{project}/subjects/{subject_label}/experiments/{session_label}/assessors/{assessor_label}/out/resources'
 URI_SESSION_ASSESSOR_RESOURCE_BY_ID = '/data/archive/projects/{project}/subjects/{subject_label}/experiments/{session_label}/assessors/{assessor_label}/out/resources/{resource}'
 URI_SESSION_ASSESSOR_RESOURCE_FILE_BY_ID = '/data/archive/projects/{project}/subjects/{subject_label}/experiments/{session_label}/assessors/{assessor_label}/out/resources/{resource}/files/{file}'
-URI_SESSION_RECONSTRUCTION = '/data/archive/projects/{project}/subjects/{subject_label}/experiments/{session_label}/reconstructions'
-URI_SESSION_RECONSTRUCTION_BY_ID = '/data/archive/projects/{project}/subjects/{subject_label}/experiments/{session_label}/reconstructions/{assessor_label}'
-URI_SESSION_RECONSTRUCTION_FILE_BY_ID = '/data/archive/projects/{project}/subjects/{subject_label}/experiments/{session_label}/reconstructions/{assessor_label}/out/files/{file}'
-URI_SESSION_RECONSTRUCTION_RESOURCE = '/data/archive/projects/{project}/subjects/{subject_label}/experiments/{session_label}/reconstructions/{assessor_label}/out/resources'
-URI_SESSION_RECONSTRUCTION_RESOURCE_BY_ID = '/data/archive/projects/{project}/subjects/{subject_label}/experiments/{session_label}/reconstructions/{assessor_label}/out/resources/{resource}'
-URI_SESSION_RECONSTRUCTION_RESOURCE_FILE_BY_ID = '/data/archive/projects/{project}/subjects/{subject_label}/experiments/{session_label}/reconstructions/{assessor_label}/out/resources/{resource}/files/{file}'
 URI_SESSION_SCAN = '/data/archive/projects/{project}/subjects/{subject_label}/experiments/{session_label}/scans'
 URI_SESSION_SCAN_BY_ID = '/data/archive/projects/{project}/subjects/{subject_label}/experiments/{session_label}/scans/{scan_id}'
 URI_SESSION_SCAN_FILE_BY_ID = '/data/archive/projects/{project}/subjects/{subject_label}/experiments/{session_label}/scans/{scan_id}/files/{file}'
 URI_SESSION_SCAN_RESOURCE = '/data/archive/projects/{project}/subjects/{subject_label}/experiments/{session_label}/scans/{scan_id}/resources'
 URI_SESSION_SCAN_RESOURCE_BY_ID = '/data/archive/projects/{project}/subjects/{subject_label}/experiments/{session_label}/scans/{scan_id}/resources/{resource}'
 URI_SESSION_SCAN_RESOURCE_FILE_BY_ID = '/data/archive/projects/{project}/subjects/{subject_label}/experiments/{session_label}/scans/{scan_id}/resources/{resource}/files/{file}'
+
+# Prearchive URIS
+URI_PREARCHIVE_PROJECT = '/data/prearchive/projects'
+URI_PREARCHIVE_PROJECT_BY_ID = '/data/prearchive/projects/{project}'
+URI_PREARCHIVE_SESSION_BY_ID = '/data/prearchive/projects/{project}/{timestamp}/{session_label}'
+URI_PREARCHIVE_SCAN = '/data/prearchive/projects/{project}/{timestamp}/{session_label}/scans'
+URI_PREARCHIVE_SCAN_BY_ID = '/data/prearchive/projects/{project}/{timestamp}/{session_label}/scans/{scan_id}/resources'
+URI_PREARCHIVE_SCAN_FILE = '/data/prearchive/projects/{project}/{timestamp}/{session_label}/scans/{scan_id}/resources/{resource}/files'
+URI_PREARCHIVE_SCAN_FILE_BY_ID = '/data/prearchive/projects/{project}/{timestamp}/{session_label}/scans/{scan_id}/resources/{resource}/files/{file}'
+
+# Archive URIS
+URI_ARCHIVE_SESSION_BY_ID = '/data/archive/experiments/{session_label}'
+URI_ARCHIVE_ASSESSOR_BY_ID = '/data/archive/experiments/{session_label}/assessors/{ID}'
+URI_ARCHIVE_SCAN_BY_ID = '/data/archive/experiments/{session_label}/scans/{ID}'
+URI_ARCHIVE_PROJECT_BY_ID = '/data/archive/projects/{project}'
+URI_ARCHIVE_SUBJECT_BY_ID = '/data/archive/projects/{project}/subjects/{subject_label}'
+URI_ARCHIVE_SESSION_BY_ID = '/data/archive/projects/{project}/subjects/{subject_label}/experiments/{session_label}'
+URI_ARCHIVE_ASSESSOR = '/data/archive/projects/{project}/subjects/{subject_label}/experiments/{session_label}/assessors'
+URI_ARCHIVE_SUJECT_ID_AND_SCAN_ID = '/data/archive/projects/{project}/subjects/{subject_label}/experiments/{session_label}/scans/{scan_id}'
+
+# Service URIS
+URI_SERVICE_ARCHIVE = '/data/services/archive'
+URI_SERVICE_DCMSCP = '/data/services/dicomscp'
+URI_SERVICE_IMPORT = '/data/services/import'
+URI_SERVICE_PREARCHIVE_DELETE = '/data/services/prearchive/delete'
+URI_SERVICE_PREARCHIVE_MOVE ='/data/services/prearchive/move'
+URI_SERVICE_REFRESH_CATALOG = '/data/services/refresh/catalog'
+URI_SERVICE_VALIDATE_ARCHIVE = '/data/services/validate-archive'
+URI_SERVICE_STATUS_BY_ID = '/data/status/{status}'
+URI_SERVICE_VERSION = '/data/version'
+
 
 class XNATURI(object):
 
@@ -103,5 +130,14 @@ class XNATURI(object):
 
         if self.uri_obj.exits():
             xnat_utils2.wrapped_delete(self.uri_obj)
+
+    def get_keys(self):
+        '''
+        Method to return the keys in the URI
+
+        :return: list of keys in URI
+        '''
+
+        return [i[1] for i in Formatter().parse(self.uri)]
 
 
