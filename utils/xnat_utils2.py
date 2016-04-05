@@ -2,6 +2,10 @@ __author__ = 'damons'
 
 import pyxnat.core.errors
 import printutil
+import tempfile
+import os
+from pyxnat import Interface
+import shutil
 
 def wrapped_select(xnat, uri):
     '''
@@ -55,4 +59,57 @@ def refresh_connection(xnat):
     '''
 
     xnat.disconnect()
-    return get_connection()
+    return get_interface()
+
+def get_interface(host=None, user=None, pwd=None):
+    """
+    Opens a connection to XNAT using XNAT_USER, XNAT_PASS, and XNAT_HOST from
+     env if host/user/pwd are None.
+
+    :param host: URL to connect to XNAT
+    :param user: XNAT username
+    :param pwd: XNAT password
+    :return: InterfaceTemp object which extends functionaly of pyxnat.Interface
+
+    """
+    if user == None:
+        user = os.environ['XNAT_USER']
+    if pwd == None:
+        pwd = os.environ['XNAT_PASS']
+    if host == None:
+        host = os.environ['XNAT_HOST']
+    # Don't sys.exit, let callers catch KeyErrors
+    return InterfaceTemp(host, user, pwd)
+
+class InterfaceTemp(Interface):
+    """
+    Extends the pyxnat.Interface class to make a temporary directory, write the
+     cache to it and then blow it away on the Interface.disconnect call()
+     NOTE: This is deprecated in pyxnat 1.0.0.0
+    """
+    def __init__(self, xnat_host, xnat_user, xnat_pass, temp_dir=None):
+        """
+        Entry point for the InterfaceTemp class
+
+        :param xnat_host: XNAT Host url
+        :param xnat_user: XNAT User ID
+        :param xnat_pass: XNAT Password
+        :param temp_dir: Directory to write the Cache to
+        :return: None
+
+        """
+        if not temp_dir:
+            temp_dir = tempfile.mkdtemp()
+        if not os.path.exists(temp_dir):
+            os.mkdir(temp_dir)
+        self.temp_dir = temp_dir
+        super(InterfaceTemp, self).__init__(server=xnat_host, user=xnat_user, password=xnat_pass, cachedir=temp_dir)
+
+    def disconnect(self):
+        """
+        Disconnect the JSESSION and blow away the cache
+
+        :return: None
+        """
+        self._exec('/data/JSESSION', method='DELETE')
+        shutil.rmtree(self.temp_dir)
