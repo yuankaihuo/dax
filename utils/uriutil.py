@@ -1,5 +1,5 @@
 import printutil
-
+import xnat_utils2
 # Mirror of the URIS here https://wiki.xnat.org/display/XNAT16/XNAT+REST+API+Directory
 
 # User URIS
@@ -47,22 +47,61 @@ URI_SESSION_SCAN_RESOURCE = '/data/archive/projects/{project}/subjects/{subject_
 URI_SESSION_SCAN_RESOURCE_BY_ID = '/data/archive/projects/{project}/subjects/{subject_label}/experiments/{session_label}/scans/{scan_id}/resources/{resource}'
 URI_SESSION_SCAN_RESOURCE_FILE_BY_ID = '/data/archive/projects/{project}/subjects/{subject_label}/experiments/{session_label}/scans/{scan_id}/resources/{resource}/files/{file}'
 
-def format_uri(uri, value_dict):
-    '''
-    Method to format any URI given a dict of key value pairs
+class XNATURI(object):
 
-    :param uri: String template of a URI
-    :param value_dict: key value pairs where the keys are in the URI and the
-     values are the value to insert
-    :return: Formatted URI with text inserted
+    def __init__(self, xnat, uri, value_dict):
+        self.xnat = xnat
+        self.uri = uri
+        self.value_dict = value_dict
+        self.uri_obj = None
 
-    '''
+    def format_uri(self):
+        '''
+        Method to format any URI given a dict of key value pairs
 
-    uri_out = None
-    try:
-        uri_out = uri.format(**value_dict)
-    except KeyError as KE:
-        printutil.print_warning_message(KE.message)
-    return uri_out
+        :param uri: String template of a URI
+        :param value_dict: key value pairs where the keys are in the URI and the
+         values are the value to insert
+        :return: Formatted URI with text inserted
+
+        '''
+
+        uri_out = None
+        try:
+            uri_out = self.uri.format(**self.value_dict)
+        except KeyError as KE:
+            printutil.print_warning_message(KE.message)
+        return uri_out
+
+    def exists(self):
+        '''
+        Method that calls the pyxnat "exists()" method
+
+        :return: True/False if object exists
+
+        '''
+
+        if self.uri_obj is None:
+            return False
+        else:
+            return self.uri_obj.exists()
+
+    def select(self):
+        '''
+        Calls a wrapper method for pyxnat's select method
+
+        :return: None
+        '''
+        self.uri_obj = xnat_utils2.wrapped_select(self.xnat, self.uri)
+
+    def delete(self):
+        '''
+        Calls a wrapper method for pyxnats delete method
+
+        :return: None
+        '''
+
+        if self.uri_obj.exits():
+            xnat_utils2.wrapped_delete(self.uri_obj)
 
 
