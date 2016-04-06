@@ -14,53 +14,53 @@ URI_USER_BY_ID = '/data/users/{user}'
 
 # Project URIS
 URI_PROJECT = '/data/archive/projects'
-URI_PROJECT_BY_ID = '/data/archive/projects/{project}'
-URI_PROJECT_ACCESSIBILITY = '/data/archive/projects/{project}/accessibility'
-URI_PROJECT_ACCESSIBILITY_BY_TYPE = '/data/archive/projects/{project}/accessibility/{accessibility}'
-URI_PROJECT_ARC_PATH = '/data/archive/projects/{project}/current_arc'
-URI_PROJECT_ARC_PATH_BY_SUBDIR = '/data/archive/projects/{project}/current_arc/{folder}'
-URI_PROJECT_FILES = '/data/archive/projects/{project}/files/{file}'
-URI_PROJECT_PREARCHIVE_CODE = '/data/archive/projects/{project}/prearchive_code'
-URI_PROJECT_PREARCHIVE_CODE_BY_ID = 'data/archive/projects/{project}/prearchive_code/{code}'
-URI_PROJECT_QUARANTINE_CODE = '/data/archive/projects/{project}/quarantine_code'
-URI_PROJECT_QUARANTINE_CODE_BY_ID = '/data/archive/projects/{project}/quarantine_code/{code}'
-URI_PROJECT_RESOURCES = '/data/archive/projects/{project}/resources'
-URI_PROJECT_RESOURCES_BY_ID = '/data/archive/projects/{project}/resources/{resource}'
-URI_PROJECT_RESOURCES_BY_FILENAME = '/data/archive/projects/{project}/resources/{resource}/files/{file}'
-URI_PROJECT_SEARCHES = '/data/archive/projects/{project}/searches/{search}'
+URI_PROJECT_BY_ID = '/data/archive/projects/{project_id}'
+URI_PROJECT_ACCESSIBILITY = '/data/archive/projects/{project_id}/accessibility'
+URI_PROJECT_ACCESSIBILITY_BY_TYPE = '/data/archive/projects/{project_id}/accessibility/{accessibility}'
+URI_PROJECT_ARC_PATH = '/data/archive/projects/{project_id}/current_arc'
+URI_PROJECT_ARC_PATH_BY_SUBDIR = '/data/archive/projects/{project_id}/current_arc/{folder}'
+URI_PROJECT_FILES = '/data/archive/projects/{project_id}/files/{file}'
+URI_PROJECT_PREARCHIVE_CODE = '/data/archive/projects/{project_id}/prearchive_code'
+URI_PROJECT_PREARCHIVE_CODE_BY_ID = 'data/archive/projects/{project_id}/prearchive_code/{code}'
+URI_PROJECT_QUARANTINE_CODE = '/data/archive/projects/{project_id}/quarantine_code'
+URI_PROJECT_QUARANTINE_CODE_BY_ID = '/data/archive/projects/{project_id}/quarantine_code/{code}'
+URI_PROJECT_RESOURCES = '/data/archive/projects/{project_id}/resources'
+URI_PROJECT_RESOURCES_BY_ID = '/data/archive/projects/{project_id}/resources/{resource}'
+URI_PROJECT_RESOURCES_BY_FILENAME = '/data/archive/projects/{project_id}/resources/{resource}/files/{file}'
+URI_PROJECT_SEARCHES = '/data/archive/projects/{project_id}/searches/{search}'
 
 # Session URIS
-URI_SESSION_ASSESSOR = '/data/archive/projects/{project}/subjects/{subject_label}/experiments/{session_label}/assessors'
-URI_SESSION_ASSESSOR_BY_ID = '/data/archive/projects/{project}/subjects/{subject_label}/experiments/{session_label}/assessors/{assessor_label}'
-URI_SESSION_ASSESSOR_FILE_BY_ID = '/data/archive/projects/{project}/subjects/{subject_label}/experiments/{session_label}/assessors/{assessor_label}/out/files/{file}'
-URI_SESSION_ASSESSOR_RESOURCE = '/data/archive/projects/{project}/subjects/{subject_label}/experiments/{session_label}/assessors/{assessor_label}/out/resources'
-URI_SESSION_ASSESSOR_RESOURCE_BY_ID = '/data/archive/projects/{project}/subjects/{subject_label}/experiments/{session_label}/assessors/{assessor_label}/out/resources/{resource}'
-URI_SESSION_ASSESSOR_RESOURCE_FILE_BY_ID = '/data/archive/projects/{project}/subjects/{subject_label}/experiments/{session_label}/assessors/{assessor_label}/out/resources/{resource}/files/{file}'
-URI_SESSION_SCAN = '/data/archive/projects/{project}/subjects/{subject_label}/experiments/{session_label}/scans'
-URI_SESSION_SCAN_BY_ID = '/data/archive/projects/{project}/subjects/{subject_label}/experiments/{session_label}/scans/{scan_id}'
-URI_SESSION_SCAN_FILE_BY_ID = '/data/archive/projects/{project}/subjects/{subject_label}/experiments/{session_label}/scans/{scan_id}/files/{file}'
-URI_SESSION_SCAN_RESOURCE = '/data/archive/projects/{project}/subjects/{subject_label}/experiments/{session_label}/scans/{scan_id}/resources'
-URI_SESSION_SCAN_RESOURCE_BY_ID = '/data/archive/projects/{project}/subjects/{subject_label}/experiments/{session_label}/scans/{scan_id}/resources/{resource}'
-URI_SESSION_SCAN_RESOURCE_FILE_BY_ID = '/data/archive/projects/{project}/subjects/{subject_label}/experiments/{session_label}/scans/{scan_id}/resources/{resource}/files/{file}'
+URI_SESSION_ASSESSOR = '/data/archive/projects/{project_id}/subjects/{subject_label}/experiments/{session_label}/assessors'
+URI_SESSION_ASSESSOR_BY_ID = '/data/archive/projects/{project_id}/subjects/{subject_label}/experiments/{session_label}/assessors/{assessor_label}'
+URI_SESSION_ASSESSOR_FILE_BY_ID = '/data/archive/projects/{project_id}/subjects/{subject_label}/experiments/{session_label}/assessors/{assessor_label}/out/files/{file}'
+URI_SESSION_ASSESSOR_RESOURCE = '/data/archive/projects/{project_id}/subjects/{subject_label}/experiments/{session_label}/assessors/{assessor_label}/out/resources'
+URI_SESSION_ASSESSOR_RESOURCE_BY_ID = '/data/archive/projects/{project_id}/subjects/{subject_label}/experiments/{session_label}/assessors/{assessor_label}/out/resources/{resource}'
+URI_SESSION_ASSESSOR_RESOURCE_FILE_BY_ID = '/data/archive/projects/{project_id}/subjects/{subject_label}/experiments/{session_label}/assessors/{assessor_label}/out/resources/{resource}/files/{file}'
+URI_SESSION_SCAN = '/data/archive/projects/{project_id}/subjects/{subject_label}/experiments/{session_label}/scans'
+URI_SESSION_SCAN_BY_ID = '/data/archive/projects/{project_id}/subjects/{subject_label}/experiments/{session_label}/scans/{scan_id}'
+URI_SESSION_SCAN_FILE_BY_ID = '/data/archive/projects/{project_id}/subjects/{subject_label}/experiments/{session_label}/scans/{scan_id}/files/{file}'
+URI_SESSION_SCAN_RESOURCE = '/data/archive/projects/{project_id}/subjects/{subject_label}/experiments/{session_label}/scans/{scan_id}/resources'
+URI_SESSION_SCAN_RESOURCE_BY_ID = '/data/archive/projects/{project_id}/subjects/{subject_label}/experiments/{session_label}/scans/{scan_id}/resources/{resource}'
+URI_SESSION_SCAN_RESOURCE_FILE_BY_ID = '/data/archive/projects/{project_id}/subjects/{subject_label}/experiments/{session_label}/scans/{scan_id}/resources/{resource}/files/{file}'
 
 # Prearchive URIS
 URI_PREARCHIVE_PROJECT = '/data/prearchive/projects'
-URI_PREARCHIVE_PROJECT_BY_ID = '/data/prearchive/projects/{project}'
-URI_PREARCHIVE_SESSION_BY_ID = '/data/prearchive/projects/{project}/{timestamp}/{session_label}'
-URI_PREARCHIVE_SCAN = '/data/prearchive/projects/{project}/{timestamp}/{session_label}/scans'
-URI_PREARCHIVE_SCAN_BY_ID = '/data/prearchive/projects/{project}/{timestamp}/{session_label}/scans/{scan_id}/resources'
-URI_PREARCHIVE_SCAN_FILE = '/data/prearchive/projects/{project}/{timestamp}/{session_label}/scans/{scan_id}/resources/{resource}/files'
-URI_PREARCHIVE_SCAN_FILE_BY_ID = '/data/prearchive/projects/{project}/{timestamp}/{session_label}/scans/{scan_id}/resources/{resource}/files/{file}'
+URI_PREARCHIVE_PROJECT_BY_ID = '/data/prearchive/projects/{project_id}'
+URI_PREARCHIVE_SESSION_BY_ID = '/data/prearchive/projects/{project_id}/{timestamp}/{session_label}'
+URI_PREARCHIVE_SCAN = '/data/prearchive/projects/{project_id}/{timestamp}/{session_label}/scans'
+URI_PREARCHIVE_SCAN_BY_ID = '/data/prearchive/projects/{project_id}/{timestamp}/{session_label}/scans/{scan_id}/resources'
+URI_PREARCHIVE_SCAN_FILE = '/data/prearchive/projects/{project_id}/{timestamp}/{session_label}/scans/{scan_id}/resources/{resource}/files'
+URI_PREARCHIVE_SCAN_FILE_BY_ID = '/data/prearchive/projects/{project_id}/{timestamp}/{session_label}/scans/{scan_id}/resources/{resource}/files/{file}'
 
 # Archive URIS
 URI_ARCHIVE_SESSION_BY_ID = '/data/archive/experiments/{session_label}'
 URI_ARCHIVE_ASSESSOR_BY_ID = '/data/archive/experiments/{session_label}/assessors/{ID}'
 URI_ARCHIVE_SCAN_BY_ID = '/data/archive/experiments/{session_label}/scans/{ID}'
-URI_ARCHIVE_PROJECT_BY_ID = '/data/archive/projects/{project}'
-URI_ARCHIVE_SUBJECT_BY_ID = '/data/archive/projects/{project}/subjects/{subject_label}'
-URI_ARCHIVE_BY_SUBJECT_ID_AND_SESSION_BY_ID = '/data/archive/projects/{project}/subjects/{subject_label}/experiments/{session_label}'
-URI_ARCHIVE_ASSESSOR = '/data/archive/projects/{project}/subjects/{subject_label}/experiments/{session_label}/assessors'
-URI_ARCHIVE_BY_SUBJECT_ID_AND_SCAN_ID = '/data/archive/projects/{project}/subjects/{subject_label}/experiments/{session_label}/scans/{scan_id}'
+URI_ARCHIVE_PROJECT_BY_ID = '/data/archive/projects/{project_id}'
+URI_ARCHIVE_SUBJECT_BY_ID = '/data/archive/projects/{project_id}/subjects/{subject_label}'
+URI_ARCHIVE_BY_SUBJECT_ID_AND_SESSION_BY_ID = '/data/archive/projects/{project_id}/subjects/{subject_label}/experiments/{session_label}'
+URI_ARCHIVE_ASSESSOR = '/data/archive/projects/{project_id}/subjects/{subject_label}/experiments/{session_label}/assessors'
+URI_ARCHIVE_BY_SUBJECT_ID_AND_SCAN_ID = '/data/archive/projects/{project_id}/subjects/{subject_label}/experiments/{session_label}/scans/{scan_id}'
 
 # Service URIS
 URI_SERVICE_ARCHIVE = '/data/services/archive'
@@ -81,8 +81,9 @@ class XNATURI(object):
         self.uri = uri
         self.value_dict = value_dict
         self.uri_obj = None
+        self._format_uri()
 
-    def format_uri(self):
+    def _format_uri(self):
         '''
         Method to format any URI given a dict of key value pairs
 
