@@ -51,7 +51,7 @@ def wrapped_delete(obj):
                                         'deleting with message %s' %
                                         dberr.message)
 
-def refresh_connection(xnat):
+def refresh_interface(xnat):
     '''
 
     :param xnat:
@@ -72,11 +72,11 @@ def get_interface(host=None, user=None, pwd=None):
     :return: InterfaceTemp object which extends functionaly of pyxnat.Interface
 
     """
-    if user == None:
+    if user is None:
         user = os.environ['XNAT_USER']
-    if pwd == None:
+    if pwd is None:
         pwd = os.environ['XNAT_PASS']
-    if host == None:
+    if host is None:
         host = os.environ['XNAT_HOST']
     # Don't sys.exit, let callers catch KeyErrors
     return InterfaceTemp(host, user, pwd)
@@ -112,4 +112,7 @@ class InterfaceTemp(Interface):
         :return: None
         """
         self._exec('/data/JSESSION', method='DELETE')
-        shutil.rmtree(self.temp_dir)
+        try:
+            shutil.rmtree(self.temp_dir)
+        except OSError as OSE:
+            printutil.print_warning_message('Interface already disconnected!')
