@@ -26,7 +26,7 @@ def download_scan_from_dict(xnat, scan_dict, resource_name, download_dir):
         return downloaded_files
     else:
         printutil.print_warning_message('Object defined by uri %s does not'
-                                        ' exist' % xnaturi.uri)
+                                        ' exist' % xnaturi.formatted_uri)
 
 def download_scan(obj, resource, download_dir):
     '''
