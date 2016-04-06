@@ -4,15 +4,59 @@ import os
 import gzip
 import errno
 import printutil
+import glob
+import fnmatch
 
+
+def gunzip_directory(directory, remove=False):
+    """
+    Method to call the gunzip_file function on a directory
+    
+    :param directory: directory to iterate over and gunzip all files that end with gz
+    :param remove: remove the unzipped file
+    :return: filepaths to the unzipped file
+    
+    """
+    zipped_files = glob.glob(os.path.join(directory, '*.gz'))
+    unzipped_files = list()
+    for zipped_file in zipped_files:
+        unzipped_file = gunzip_file(zipped_file, remove)
+        unzipped_files.append(unzipped_file)
+
+    return unzipped_files
+
+def gzip_directory(directory, remove=False, fnmatch_filter=None):
+    """
+    Method to call the gzip_file function on a directory using an fnmatch filter
+
+    :param directory: directory to iterate over and gunzip all files that end with gz
+    :param remove: remove the unzipped file
+    :param fnmatch_filter: a filter that can be used to filter out files
+     the directory see https://docs.python.org/2/library/fnmatch.html
+    :return: filepath to the unzipped file
+
+    """
+    unzipped_files = glob.glob(os.path.join(directory, '*'))
+    zipped_files = list()
+    if fnmatch_filter is None:
+        filtered_unzipped_files = unzipped_files
+    else:
+        filtered_unzipped_files = [ f for f in unzipped_files if fnmatch.fnmatch(os.path.basename(f), fnmatch_filter) ]
+
+    for filtered_unzipped_file in filtered_unzipped_files:
+        zipped_file = gzip_file(filtered_unzipped_file, remove)
+        zipped_files.append(zipped_file)
+
+    return zipped_files
+    
 def gunzip_file(filepath, remove=False):
-    '''
+    """
     Method to gunzip a file using python's gzip library
 
     :param filepath: path to a file to gunzip
     :param remove: remove the unzipped file
     :return: filepath to the unzipped file
-    '''
+    """
 
     if not os.path.isfile(filepath):
         raise IOError(errno.ENOENT, 'File %s not found' % filepath)
@@ -37,13 +81,13 @@ def gunzip_file(filepath, remove=False):
     return unzipped_file_name
 
 def gzip_file(filepath, remove=False):
-    '''
+    """
     Method to gzip a file using python's gzip library
 
     :param filepath: path to a file to gunzip
     :param remove: remove the unzipped file if true
     :return: file path to the gzipped file
-    '''
+    """
 
     if not os.path.isfile(filepath):
         raise IOError(errno.ENOENT, 'File %s not found' % filepath)
@@ -52,7 +96,7 @@ def gzip_file(filepath, remove=False):
         unzipped_data = unzipped_obj.read()
 
     zipped_fname = filepath +'.gz'
-    with gzip.open(zipped_fname) as gzipped_obj:
+    with gzip.open(zipped_fname, 'w') as gzipped_obj:
         gzipped_obj.write(unzipped_data)
 
     if remove:
