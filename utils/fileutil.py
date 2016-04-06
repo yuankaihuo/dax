@@ -6,7 +6,8 @@ import errno
 import printutil
 import glob
 import fnmatch
-
+import tempfile
+import shutil
 
 def gunzip_directory(directory, remove=False):
     """
@@ -24,6 +25,7 @@ def gunzip_directory(directory, remove=False):
         unzipped_files.append(unzipped_file)
 
     return unzipped_files
+
 
 def gzip_directory(directory, remove=False, fnmatch_filter=None):
     """
@@ -48,7 +50,8 @@ def gzip_directory(directory, remove=False, fnmatch_filter=None):
         zipped_files.append(zipped_file)
 
     return zipped_files
-    
+
+
 def gunzip_file(filepath, remove=False):
     """
     Method to gunzip a file using python's gzip library
@@ -80,6 +83,7 @@ def gunzip_file(filepath, remove=False):
 
     return unzipped_file_name
 
+
 def gzip_file(filepath, remove=False):
     """
     Method to gzip a file using python's gzip library
@@ -106,3 +110,50 @@ def gzip_file(filepath, remove=False):
             printutil.print_warning_message(RMIOE.message)
 
     return zipped_fname
+
+
+def make_temp_dir():
+    """
+    Method to create a temprary directory that shouldn't collide
+     with others.
+
+    :return: string of the temporary directory
+    """
+
+    return tempfile.mkdtemp()
+
+
+def remove_file_if_exists(filepath):
+    """
+    Method to remove a file if it exits
+
+    :param filepath: full path to a file to delete
+    """
+
+    if not os.path.isfile(filepath):
+        printutil.print_warning_message('File %s does not exist' % filepath)
+        return
+
+    if not os.path.isdir(filepath):
+        printutil.print_warning_message('%s is a directory, not a file.' % filepath)
+        return
+
+    os.remove(filepath)
+
+
+def remove_directory_if_exists(dirpath):
+    """
+    Method to remove a directory if it exits
+
+    :param dirpath: full path to a directory to delete
+    """
+
+    if  os.path.isfile(dirpath):
+        printutil.print_warning_message('%s is a file, not a directory' % dirpath)
+        return
+
+    if not os.path.isdir(dirpath):
+        printutil.print_warning_message('Directory %s does not exist' % dirpath)
+        return
+
+    shutil.rmtree(dirpath)
