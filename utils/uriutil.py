@@ -30,18 +30,18 @@ URI_PROJECT_RESOURCES_BY_FILENAME = '/data/archive/projects/{project_id}/resourc
 URI_PROJECT_SEARCHES = '/data/archive/projects/{project_id}/searches/{search}'
 
 # Session URIS
-URI_SESSION_ASSESSOR = '/data/archive/projects/{project_id}/subjects/{subject_label}/experiments/{session_label}/assessors'
-URI_SESSION_ASSESSOR_BY_ID = '/data/archive/projects/{project_id}/subjects/{subject_label}/experiments/{session_label}/assessors/{assessor_label}'
-URI_SESSION_ASSESSOR_FILE_BY_ID = '/data/archive/projects/{project_id}/subjects/{subject_label}/experiments/{session_label}/assessors/{assessor_label}/out/files/{file}'
-URI_SESSION_ASSESSOR_RESOURCE = '/data/archive/projects/{project_id}/subjects/{subject_label}/experiments/{session_label}/assessors/{assessor_label}/out/resources'
-URI_SESSION_ASSESSOR_RESOURCE_BY_ID = '/data/archive/projects/{project_id}/subjects/{subject_label}/experiments/{session_label}/assessors/{assessor_label}/out/resources/{resource}'
-URI_SESSION_ASSESSOR_RESOURCE_FILE_BY_ID = '/data/archive/projects/{project_id}/subjects/{subject_label}/experiments/{session_label}/assessors/{assessor_label}/out/resources/{resource}/files/{file}'
-URI_SESSION_SCAN = '/data/archive/projects/{project_id}/subjects/{subject_label}/experiments/{session_label}/scans'
-URI_SESSION_SCAN_BY_ID = '/data/archive/projects/{project_id}/subjects/{subject_label}/experiments/{session_label}/scans/{scan_id}'
-URI_SESSION_SCAN_FILE_BY_ID = '/data/archive/projects/{project_id}/subjects/{subject_label}/experiments/{session_label}/scans/{scan_id}/files/{file}'
-URI_SESSION_SCAN_RESOURCE = '/data/archive/projects/{project_id}/subjects/{subject_label}/experiments/{session_label}/scans/{scan_id}/resources'
-URI_SESSION_SCAN_RESOURCE_BY_ID = '/data/archive/projects/{project_id}/subjects/{subject_label}/experiments/{session_label}/scans/{scan_id}/resources/{resource}'
-URI_SESSION_SCAN_RESOURCE_FILE_BY_ID = '/data/archive/projects/{project_id}/subjects/{subject_label}/experiments/{session_label}/scans/{scan_id}/resources/{resource}/files/{file}'
+URI_SESSION_ASSESSOR = '/REST/projects/{project_id}/subjects/{subject_label}/experiments/{session_label}/assessors'
+URI_SESSION_ASSESSOR_BY_ID = '/REST/projects/{project_id}/subjects/{subject_label}/experiments/{session_label}/assessors/{assessor_label}'
+URI_SESSION_ASSESSOR_FILE_BY_ID = '/REST/projects/{project_id}/subjects/{subject_label}/experiments/{session_label}/assessors/{assessor_label}/out/files/{file}'
+URI_SESSION_ASSESSOR_RESOURCE = '/REST/projects/{project_id}/subjects/{subject_label}/experiments/{session_label}/assessors/{assessor_label}/out/resources'
+URI_SESSION_ASSESSOR_RESOURCE_BY_ID = '/REST/projects/{project_id}/subjects/{subject_label}/experiments/{session_label}/assessors/{assessor_label}/out/resources/{resource}'
+URI_SESSION_ASSESSOR_RESOURCE_FILE_BY_ID = '/REST/projects/{project_id}/subjects/{subject_label}/experiments/{session_label}/assessors/{assessor_label}/out/resources/{resource}/files/{file}'
+URI_SESSION_SCAN = '/REST/projects/{project_id}/subjects/{subject_label}/experiments/{session_label}/scans'
+URI_SESSION_SCAN_BY_ID = '/REST/projects/{project_id}/subjects/{subject_label}/experiments/{session_label}/scans/{ID}'
+URI_SESSION_SCAN_FILE_BY_ID = '/REST/projects/{project_id}/subjects/{subject_label}/experiments/{session_label}/scans/{scan_id}/files/{file}'
+URI_SESSION_SCAN_RESOURCE = '/REST/projects/{project_id}/subjects/{subject_label}/experiments/{session_label}/scans/{scan_id}/resources'
+URI_SESSION_SCAN_RESOURCE_BY_ID = '/REST/projects/{project_id}/subjects/{subject_label}/experiments/{session_label}/scans/{scan_id}/resources/{resource}'
+URI_SESSION_SCAN_RESOURCE_FILE_BY_ID = '/REST/projects/{project_id}/subjects/{subject_label}/experiments/{session_label}/scans/{scan_id}/resources/{resource}/files/{file}'
 
 # Prearchive URIS
 URI_PREARCHIVE_PROJECT = '/data/prearchive/projects'
@@ -79,9 +79,21 @@ class XNATURI(object):
     def __init__(self, xnat, uri, value_dict):
         self.xnat = xnat
         self.uri = uri
+        self.formatted_uri = None
         self.value_dict = value_dict
         self.uri_obj = None
+        self._translate_uri()
         self._format_uri()
+
+    def _translate_uri(self):
+        """
+        Interface.select() doesn't like URIs starting with /REST or /REST/data so strip it out
+
+        """
+        if self.uri.startswith('/REST/data'):
+            self.uri = self.uri[9:]
+        elif self.uri.startswith('/REST'):
+            self.uri = self.uri[5:]
 
     def _format_uri(self):
         '''
@@ -90,16 +102,13 @@ class XNATURI(object):
         :param uri: String template of a URI
         :param value_dict: key value pairs where the keys are in the URI and the
          values are the value to insert
-        :return: Formatted URI with text inserted
-
         '''
 
-        uri_out = None
         try:
-            uri_out = self.uri.format(**self.value_dict)
+            self.formatted_uri = self.uri.format(**self.value_dict)
         except KeyError as KE:
             printutil.print_warning_message(KE.message)
-        return uri_out
+
 
     def exists(self):
         '''
@@ -120,7 +129,7 @@ class XNATURI(object):
 
         :return: None
         '''
-        self.uri_obj = xnat_utils2.wrapped_select(self.xnat, self.uri)
+        self.uri_obj = xnat_utils2.wrapped_select(self.xnat, self.formatted_uri)
 
     def delete(self):
         '''
