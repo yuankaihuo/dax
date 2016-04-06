@@ -3,6 +3,7 @@ __author__ = 'damons'
 import uriutil
 import printutil
 import os
+import errno
 
 def download_scan_from_dict(xnat, scan_dict, resource_name, download_dir):
     '''
@@ -15,19 +16,17 @@ def download_scan_from_dict(xnat, scan_dict, resource_name, download_dir):
     :return: file path
 
     '''
-    uri = uriutil.URI_SESSION_SCAN
+    uri = uriutil.URI_SESSION_SCAN_BY_ID
 
-    # Note that we will ignore resources in the scan_dict and user
-    #  the user-passed resource
-    formatted_uri = uriutil.format_uri(uri, scan_dict)
+    xnaturi = uriutil.XNATURI(xnat=xnat, uri=uri, value_dict=scan_dict)
+    xnaturi.select()
 
-    obj = select_resource_by_uri(xnat, formatted_uri)
-    if obj.exists():
-        downloaded_files = download_scan(obj, resource_name, download_dir)
+    if xnaturi.exists():
+        downloaded_files = download_scan(xnaturi.uri_obj, resource_name, download_dir)
         return downloaded_files
     else:
         printutil.print_warning_message('Object defined by uri %s does not'
-                                        ' exist' % formatted_uri)
+                                        ' exist' % xnaturi.uri)
 
 def download_scan(obj, resource, download_dir):
     '''
@@ -53,23 +52,15 @@ def download(obj, download_dir):
     files = obj.files()
     files_out = list()
     for f in files:
-        new_location = os.path.join(download_dir, os.path.basename(f))
+        new_location = os.path.join(download_dir, f.label())
         files_out.append(new_location)
-        obj.file(f).get_copy(new_location)
+        obj.file(f.label()).get_copy(new_location)
+
+        # Check to make sure we got the file
+        if not os.path.isfile(new_location):
+            raise IOError(errno.ENOENT, 'File %s not found' % new_location)
 
     return files_out
 
-
-def select_resource_by_uri(xnat, uri):
-    '''
-    Method to select a resource from a fully qualified uri
-
-    :param xnat: pyxnat Interface object to XNAT
-    :param uri: some URI either from uriutil or otherwise specified
-    :return: pyxnat E/Cobject
-
-    '''
-
-    return xnat.select(uri)
 
 
