@@ -1,0 +1,95 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+from dax import XnatUtils
+import sys
+
+def parse_args():
+    """
+    Parse the arguments
+
+    :return: parsed args
+    """
+    from argparse import ArgumentParser
+    ap = ArgumentParser()
+    ap.add_argument('-p', '--project', dest='project', help='XNAT Project Name')
+    ap.add_argument('-s', '--status', dest='status', default='JOB_FAILED',
+                    help='Procstatus of assessor(s) to switch')
+    ap.add_argument('-a', '--assessor', dest='assessor',
+                    help='Proctype(s) or Assessor(s) to switch to '
+                         'NEED_TO_RUN')
+    ap.add_argument('--nodelete', dest='delete', default=True,
+                    action='store_true', help='Don''t delete resources')
+    return ap.parse_args()
+
+def delete_resource(assessor_obj, resource_label):
+    """
+    Method to delete the resources for an assessors
+
+    :param assessor_obj: pyxnat assessor Eobject
+    :param resource_label: label of the resource to delete
+    :return: None
+    """
+    deleted = False
+    count = 0
+    while count < 3 and deleted == False:
+        try:
+            if assessor_obj.out_resource(resource_label).exists():
+                assessor_obj.out_resource(resource_label).delete()
+            deleted = True
+        except Exception as e:
+            if isinstance(e, KeyboardInterrupt):
+                sys.exit()
+            else:
+                sys.stdout.write('     ->WARNING: Timing Out while deleting: Resource Too big.Trying again.\n')
+                count += 1
+
+    if not deleted:
+        sys.stdout.write('     ->WARNING: Can not remove resource %s. Deleting file by file.\n' % (resource_label))
+        try:
+            for fname in assessor_obj.out_resource(resource_label).files().get()[:]:
+                assessor_obj.out_resource(resource_label).file(fname).delete()
+                assessor_obj.out_resource(resource_label).delete()
+        except Exception as e:
+            if isinstance(e,KeyboardInterrupt):
+                sys.exit()
+            else:
+                sys.stdout.write('     ->ERROR: deleting file by file for the resource %s\n' % (resource_label))
+                print e
+    sys.stdout.write('     ->Resource %s deleted\n' % (resource_label))
+
+
+def main():
+    """
+    Main
+    :return: None
+    """
+    xnat = XnatUtils.get_interface()
+    args = parse_args()
+    assessors = args.assessor.split(',')
+    for assessor in assessors:
+        if '-x-' in assessors:
+            print 'Found Assessor %s to switch' % assessor
+        else:
+            print 'Found proctype %s to switch' % assessor
+
+    x_assessors = XnatUtils.list_project_assessors(xnat, args.project)
+    for x_assessor in x_assessors:
+        for assessor in assessors:
+            if x_assessor['procstatus'] == args.status and (x_assessor['label'] == assessor or x_assessor['proctype'] == assessor):
+                print "Switching %s to NEED to run" % x_assessor['label']
+                o = XnatUtils.get_full_object(xnat, x_assessor)
+                o.attrs.mset({'procstatus':'NEED_TO_RUN',
+                              'qcstatus': 'Job Pending'})
+
+                if args.delete:
+                    print "Deleting resources"
+                    for resource in XnatUtils.list_assessor_out_resources(xnat, x_assessor['project_id'],
+                                                                  x_assessor['subject_id'],
+                                                                  x_assessor['session_id'],
+                                                                  x_assessor['label']):
+                        delete_resource(o, resource['label'])
+
+
+
+if __name__ == '__main__':
+    main()
